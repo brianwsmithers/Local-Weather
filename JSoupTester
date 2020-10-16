@@ -1,0 +1,29 @@
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public class JSoupTester {
+
+	public static void main(String[] args) throws IOException {
+		
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("MM-dd-yy HH:mm");
+		LocalDateTime now = LocalDateTime.now();
+		String time = dtf.format(now);
+		
+		String url = 
+				"https://weather.com/weather/today/l/a24d2c05e9bf890af18b4d888cce64f6c1f3ed412e7c3075beb9bbf7003bf44b";
+		
+		Document doc = Jsoup.connect(url).get();
+		String title = "Lawrenceville, GA";
+		String temperature = doc.getElementsByClass("CurrentConditions--tempValue--3KcTQ").text();
+		
+		System.out.println(time);
+		System.out.println(title);
+		System.out.println(temperature);
+	}
+}
