@@ -19,11 +19,18 @@ public class JSoupTester {
 				"https://weather.com/weather/today/l/a24d2c05e9bf890af18b4d888cce64f6c1f3ed412e7c3075beb9bbf7003bf44b";
 		
 		Document doc = Jsoup.connect(url).get();
-		String title = "Lawrenceville, GA";
-		String temperature = doc.getElementsByClass("CurrentConditions--tempValue--3KcTQ").text();
-		
-		System.out.println(time);
-		System.out.println(title);
-		System.out.println(temperature);
+        String title = "Lawrenceville, Georgia";
+        String temperature = doc.getElementsByClass("CurrentConditions--tempValue--3KcTQ").text();
+        String conditions = doc.getElementsByClass("CurrentConditions--phraseValue--2xXsr").text();
+        String feelsLike = doc.getElementsByClass("TodayDetailsCard--feelsLikeTempValue--2aogo").text();
+        String sunriseSunset = doc.getElementsByClass("SunriseSunset--datevalue--2nwgx").text();
+        String wind = doc.getElementsByClass("Wind--windWrapper--1VA1P undefined").text();
+
+        System.out.println(time);
+        System.out.println(title);
+        System.out.printf("Weather - %s %s%n", conditions, temperature);
+        System.out.printf("Feels Like - %s%n", feelsLike);
+        System.out.printf("Sunrise & Sunset - %s%n", sunriseSunset);
+        System.out.printf("Wind - %s", wind);
 	}
 }
