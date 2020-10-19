@@ -4,12 +4,11 @@
  *  JSoup to scrape the weather from www.weather.com.
  *
  *  @author Brian Smithers
- *  @version 1.0
- *  @since October 18, 2020
+ *  @version 1.1
+ *  @since October 19, 2020
  *
  *
  */
-
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -35,18 +34,19 @@ public class JSoupTester {
         Document doc = Jsoup.connect(url).get();
 
         // Elements 'text' data to be scraped from website by 'class.'
-        // Location, temperature, weather conditions, feels like, sunrise and sunset, and wind speed.
-        String location = doc.getElementsByClass("CurrentConditions--location--1Ayv3").text();
-        String temperature = doc.getElementsByClass("CurrentConditions--tempValue--3KcTQ").text();
-        String conditions = doc.getElementsByClass("CurrentConditions--phraseValue--2xXsr").text();
-        String feelsLike = doc.getElementsByClass("TodayDetailsCard--feelsLikeTempValue--2aogo").text();
-        String sunriseSunset = doc.getElementsByClass("SunriseSunset--datevalue--2nwgx").text();
-        String wind = doc.getElementsByClass("Wind--windWrapper--1VA1P undefined").text();
-
+        // Location, temperature, weather conditions, feels like, sunrise, sunset, and wind speed.
+        String location = doc.getElementsByClass("CurrentConditions--location--1Ayv3").get(0).text();
+        String temperature = doc.getElementsByClass("CurrentConditions--tempValue--3KcTQ").get(0).text();
+        String conditions = doc.getElementsByClass("CurrentConditions--phraseValue--2xXsr").get(0).text();
+        String feelsLike = doc.getElementsByClass("TodayDetailsCard--feelsLikeTempValue--2aogo").get(0).text();
+        String sunrise = doc.getElementsByClass("SunriseSunset--datevalue--2nwgx").get(0).text();
+        String sunset = doc.getElementsByClass("SunriseSunset--datevalue--2nwgx").get(1).text();
+        String wind = doc.getElementsByClass("Wind--windWrapper--1VA1P undefined").get(0).text();
+        
         // These StringBuilders are used to manipulate the time, location and sunriseSunset strings.
         StringBuilder stringBuilderDateAndTime = new StringBuilder(dateAndTime);
         StringBuilder stringBuilderLocation = new StringBuilder(location);
-        StringBuilder stringBuilderSunriseSunset = new StringBuilder(sunriseSunset);
+        //StringBuilder stringBuilderSunriseSunset = new StringBuilder(sunriseSunset);
 
         // Removes 'AM' or 'PM' from string.
         String dateAndTimeFormattedNoDayOrNight = stringBuilderDateAndTime.substring(0,22);
@@ -65,18 +65,13 @@ public class JSoupTester {
         // Removes 'Weather' from string.
         String locationFormatted = stringBuilderLocation.substring(0,18);
 
-        // These separate the sunrise and sunset from the string so they can be displayed on separate lines.
-        String sunriseTime = stringBuilderSunriseSunset.substring(0,7);
-        String sunsetTime = stringBuilderSunriseSunset.substring(8,15);
-
-        // Prints, date and dime, location, weather conditions, feels like, sunrise, sunset and wind speed.
+        // Prints, date and time, location, weather conditions, feels like, sunrise, sunset and wind speed.
         System.out.printf("%s%s", dateAndTimeFormattedNoDayOrNight, dateAndTimeFormattedDayOrNight);
         System.out.printf("%n%s%n%n", locationFormatted);
         System.out.printf("Weather - %s %sF%n", conditions, temperature);
         System.out.printf("Feels Like - %sF%n", feelsLike);
-        System.out.printf("Sunrise - %s%n", sunriseTime);
-        System.out.printf("Sunset - %s%n", sunsetTime);
+        System.out.printf("Sunrise - %s%n", sunrise);
+        System.out.printf("Sunset - %s%n", sunset);
         System.out.printf("Wind - %s", wind);
-
     }
 }
